@@ -71,6 +71,18 @@ SC_MODULE(Testbench) {
         if (!got_a) std::cout << "  [MISS] TC3-A nao chegou em R7\n";
         if (!got_b) std::cout << "  [MISS] TC3-B nao chegou em R4\n";
 
+        // TC4: teste do buffer central: R1 recebe pacote de R0 para R5
+        //   R0 injeta para R1 (DN→DN no R0); R1 deve rotear para R5 via D0
+        //   O buffer central de R0 é exercitado pois o pacote de R0→R1 é DN→DN
+        log("TC4: R0 -> R5 (exercita buffer central em R0)");
+        send_packet(0, 5, 0xEEEE0005);
+        wait_recv(5, 0, "TC4");
+
+        // TC5: raiz→folha distante (R0→R7)
+        log("TC5: R0 -> R7");
+        send_packet(0, 7, 0xFF007777);
+        wait_recv(7, 0, "TC5");
+
         banner("Concluido! Enviados=" + std::to_string(packets_sent_) +
                " Recebidos=" + std::to_string(packets_received_));
         sc_stop();
