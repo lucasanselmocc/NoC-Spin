@@ -1,0 +1,109 @@
+=== Spin NoC — Build & Run ===
+    SystemC: /usr/local/systemc-2.3.3
+    Build:   /home/luisaferreirass/NoC-Spin/build
+
+[ 50%] Building CXX object CMakeFiles/spin_noc_sim.dir/src/testbench/main.cpp.o
+[100%] Linking CXX executable spin_noc_sim
+[100%] Built target spin_noc_sim
+
+=== Executando simulação ===
+
+        SystemC 2.3.3-Accellera --- May  4 2026 11:17:37
+        Copyright (c) 1996-2018 by all Contributors,
+        ALL RIGHTS RESERVED
+[VCD] sim/noc_trace.vcd
+
+Info: (I702) default timescale unit used for tracing: 1 ps (sim/noc_trace.vcd)
+
+==============================
+  Spin NoC Testbench — inicio
+==============================
+
+[40 ns] TC1: Unicast R5 -> R7
+[R5 @70 ns] HEADER src=5 dst=7 → porta_entrada=1 porta_saida=4
+[R5 @80 ns] HEADER src=5 dst=7 → porta_entrada=1 porta_saida=4
+[R5 @90 ns] TAIL src=5 → porta_entrada=1 porta_saida=4 (canal fechado)
+[R1 @100 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=4
+[R1 @110 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=4
+[R1 @120 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=4
+[R0 @130 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R1 @130 ns] TAIL src=5 → porta_entrada=0 porta_saida=4 (canal fechado)
+[R0 @140 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R0 @150 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R0 @160 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R3 @160 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R0 @170 ns] TAIL src=5 → porta_entrada=0 porta_saida=2 (canal fechado)
+[R3 @170 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R3 @180 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R3 @190 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R7 @190 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+[R3 @200 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R7 @200 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+  [OK] TC1 em R7 | latencia=160ns | [HEADER src=5 dst=7 data=0x00000007 parity=1]
+
+[200 ns] TC2: Unicast R6 -> R0
+[R3 @210 ns] TAIL src=5 → porta_entrada=4 porta_saida=0 (canal fechado)
+[R7 @210 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+[R7 @220 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+[R6 @230 ns] HEADER src=6 dst=0 → porta_entrada=1 porta_saida=4
+[R7 @230 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+[R6 @240 ns] HEADER src=6 dst=0 → porta_entrada=1 porta_saida=4
+[R7 @240 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+[R6 @250 ns] TAIL src=6 → porta_entrada=1 porta_saida=4 (canal fechado)
+[R7 @250 ns] TAIL src=5 → porta_entrada=4 porta_saida=1 (canal fechado)
+[R2 @260 ns] HEADER src=6 dst=0 → porta_entrada=0 porta_saida=4
+[R2 @270 ns] HEADER src=6 dst=0 → porta_entrada=0 porta_saida=4
+[R2 @280 ns] HEADER src=6 dst=0 → porta_entrada=0 porta_saida=4
+[R0 @290 ns] HEADER src=6 dst=0 → porta_entrada=1 porta_saida=5
+[R2 @290 ns] TAIL src=6 → porta_entrada=0 porta_saida=4 (canal fechado)
+[R0 @300 ns] HEADER src=6 dst=0 → porta_entrada=1 porta_saida=5
+  [OK] TC2 em R0 | latencia=100ns | [HEADER src=6 dst=0 data=0x00000000 parity=0]
+
+[300 ns] TC3: Simultaneo R5->R7 e R6->R4
+[R0 @310 ns] HEADER src=6 dst=0 → porta_entrada=1 porta_saida=5
+[R0 @320 ns] HEADER src=6 dst=0 → porta_entrada=1 porta_saida=5
+[R0 @330 ns] TAIL src=6 → porta_entrada=1 porta_saida=5 (canal fechado)
+[R5 @330 ns] HEADER src=5 dst=7 → porta_entrada=1 porta_saida=4
+[R5 @340 ns] HEADER src=5 dst=7 → porta_entrada=1 porta_saida=4
+[R5 @350 ns] TAIL src=5 → porta_entrada=1 porta_saida=4 (canal fechado)
+[R6 @350 ns] HEADER src=6 dst=4 → porta_entrada=1 porta_saida=4
+[R1 @360 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=4
+[R6 @360 ns] HEADER src=6 dst=4 → porta_entrada=1 porta_saida=4
+[R1 @370 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=4
+[R6 @370 ns] TAIL src=6 → porta_entrada=1 porta_saida=4 (canal fechado)
+[R1 @380 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=4
+[R2 @380 ns] HEADER src=6 dst=4 → porta_entrada=0 porta_saida=4
+[R0 @390 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R1 @390 ns] TAIL src=5 → porta_entrada=0 porta_saida=4 (canal fechado)
+[R2 @390 ns] HEADER src=6 dst=4 → porta_entrada=0 porta_saida=4
+[R0 @400 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R2 @400 ns] HEADER src=6 dst=4 → porta_entrada=0 porta_saida=4
+[R0 @410 ns] HEADER src=6 dst=4 → porta_entrada=1 porta_saida=3
+[R2 @410 ns] TAIL src=6 → porta_entrada=0 porta_saida=4 (canal fechado)
+[R0 @420 ns] HEADER src=5 dst=7 → porta_entrada=0 porta_saida=2
+[R3 @420 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R0 @430 ns] HEADER src=6 dst=4 → porta_entrada=1 porta_saida=3
+[R3 @430 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R0 @440 ns] TAIL src=5 → porta_entrada=0 porta_saida=2 (canal fechado)
+[R3 @440 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R4 @440 ns] HEADER src=6 dst=4 → porta_entrada=4 porta_saida=1
+[R0 @450 ns] HEADER src=6 dst=4 → porta_entrada=1 porta_saida=3
+[R3 @450 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=0
+[R4 @450 ns] HEADER src=6 dst=4 → porta_entrada=4 porta_saida=1
+[R7 @450 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+  [OK] TC3-B (R6->R4) em R4 | latencia=130ns | [HEADER src=6 dst=4 data=0x00000004 parity=1]
+[R3 @460 ns] TAIL src=5 → porta_entrada=4 porta_saida=0 (canal fechado)
+[R4 @460 ns] HEADER src=6 dst=4 → porta_entrada=4 porta_saida=1
+[R7 @460 ns] HEADER src=5 dst=7 → porta_entrada=4 porta_saida=1
+  [OK] TC3-A (R5->R7) em R7 | latencia=160ns | [HEADER src=5 dst=7 data=0x00000007 parity=1]
+
+==============================
+  Concluido! Enviados=4 Recebidos=4
+==============================
+
+Info: /OSCI/SystemC: Simulation stopped by user.
+[SIM] Tempo total: 460 ns
+
+=== Pronto! ===
+    VCD gerado em: /home/luisaferreirass/NoC-Spin/sim/noc_trace.vcd
+    Para visualizar: gtkwave /home/luisaferreirass/NoC-Spin/sim/noc_trace.vcd
