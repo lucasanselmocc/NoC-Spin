@@ -197,6 +197,15 @@ private:
         Flit flit = fifo_flit_[src_port].read();
         int  dst_port = -1;
 
+        if (!flit.parity_ok()) {
+            printf("[R%d @%s] ERRO: flit corrompido descartado na porta_entrada=%d src=%d type=%d data=0x%08X\n",
+               router_id, sc_time_stamp().to_string().c_str(),
+               src_port, flit.src_id, (int)flit.type, flit.data);
+            fifo_pop_[src_port].write(true);
+            if (flit.type == TAIL) wormhole_out_[src_port] = -1;
+            return;
+        }
+
         if (flit.type == HEADER) {
             uint8_t dst = flit.dst_id();
             if (dst >= NUM_ROUTERS) // endereço inválido 
