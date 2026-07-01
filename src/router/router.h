@@ -54,6 +54,7 @@ SC_MODULE(RSpin) {
         for (int i = 0; i < NUM_ROUTERS; ++i) routing_table[i] = -1;
         for (int i = 0; i < NUM_PORTS;   ++i) wormhole_out_[i] = -1;
 
+
         // ── FIFOs de entrada (uma por porta) ────────────────────────────────
         for (int p = 0; p < NUM_PORTS; ++p) {
             char name[16];
@@ -74,9 +75,11 @@ SC_MODULE(RSpin) {
         cbuf_->clk(clk); cbuf_->rst(rst);
         cbuf_->push_valid(cbuf_push_valid_);
         cbuf_->push_flit(cbuf_push_flit_);
+        cbuf_->push_dst_port(cbuf_push_dst_port_);
         cbuf_->push_ready(cbuf_push_ready_);
         cbuf_->out_valid(cbuf_out_valid_);
         cbuf_->out_flit(cbuf_out_flit_);
+        cbuf_->out_dst_port(cbuf_out_dst_port_);
         cbuf_->pop_en(cbuf_pop_en_);
 
         // ── Árbitro UP: DN0-DN3 disputam saídas superiores ──────────────────
@@ -124,9 +127,11 @@ private:
 
     sc_signal<bool> cbuf_push_valid_;
     sc_signal<Flit> cbuf_push_flit_;
+    sc_signal<int> cbuf_push_dst_port_;
     sc_signal<bool> cbuf_push_ready_;
     sc_signal<bool> cbuf_out_valid_;
     sc_signal<Flit> cbuf_out_flit_;
+    sc_signal<int> cbuf_out_dst_port_;
     sc_signal<bool> cbuf_pop_en_;
 
     sc_signal<int>  up_grant_;
@@ -164,12 +169,15 @@ private:
     //  Se src é Up, pacote NÃO pode subir de novo → descarta.
     // ─────────────────────────────────────────────────────────────────────────
     void process_up_traffic() {
-        // Limpa saídas
-        for (int p = NUM_DN_PORTS; p < NUM_PORTS; ++p) {
-            out_valid[p].write(false);
+        // Limpa saídas e sinais de pop das portas Down
+        for (int p = 0; p < NUM_DN_PORTS; ++p) {
             fifo_pop_[p].write(false);
         }
+        for (int p = NUM_DN_PORTS; p < NUM_PORTS; ++p) {
+            out_valid[p].write(false);
+        }
         cbuf_push_valid_.write(false);
+        cbuf_push_dst_port_.write(-1);
 
         if (rst.read()) {
             for (int i = 0; i < NUM_DN_PORTS; ++i) wormhole_out_[i] = -1;
@@ -237,6 +245,7 @@ private:
             if (cbuf_push_ready_.read()) {
                 cbuf_push_valid_.write(true);
                 cbuf_push_flit_.write(flit);
+                cbuf_push_dst_port_.write((int8_t)dst_port);
                 fifo_pop_[src_port].write(true);
                 printf("[R%d] DN→DN via buffer central (src=%d dst_port=%d)\n",
                        router_id, flit.src_id, dst_port);
