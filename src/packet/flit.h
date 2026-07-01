@@ -3,9 +3,13 @@
 #include <cstdint>
 #include <string>
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  Constantes globais da rede SPIN
+// ─────────────────────────────────────────────────────────────────────────────
 static constexpr int NUM_ROUTERS  = 8;   // 1 raiz + 4 filhos + 3 folhas extras
 static constexpr int FIFO_DEPTH   = 4;   // buffer de 4 palavras por entrada (spec SPIN)
 static constexpr int NUM_UP_PORTS = 4;   // portas superiores U0-U3
+static constexpr int CBUF_DEPTH   = 18;  // buffer central:    18 palavras (spec SPIN)
 static constexpr int NUM_DN_PORTS = 4;   // portas inferiores D0-D3
 static constexpr int NUM_PORTS    = 8;   // total de portas por roteador RSPIN
 
@@ -20,6 +24,17 @@ enum PortIdx : uint8_t {
 inline bool is_up_port(uint8_t p)   { return p >= 4; }
 inline bool is_down_port(uint8_t p) { return p <  4; }
 
+// ─────────────────────────────────────────────────────────────────────────────
+//  Flit — palavra de 32 bits trafegando na rede
+//
+//  Primeiro flit de um pacote (HEADER):
+//    bits [9:0]  = endereço do destino
+//    bits [31:10] = protocolo / controle
+//    bit  de framing (via valid/eop sinais no enlace real;
+//                     aqui simplificamos com campo type)
+//
+//  Demais flits: dados puros de 32 bits
+// ─────────────────────────────────────────────────────────────────────────────
 enum FlitType : uint8_t {
     HEADER = 0,  // primeiro flit -> contém endereço destino em [9:0]
     BODY   = 1,  // flit de dados intermediário

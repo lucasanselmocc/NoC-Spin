@@ -47,6 +47,26 @@ private:
     int last_;
 };
 
-// Instâncias usadas no RSPIN
-using Arbiter4 = ArbiterN<4>;
-using Arbiter8 = ArbiterN<8>;
+// ─────────────────────────────────────────────────────────────────────────────
+//  DualArbiter — árbitros separados para saídas Up e Down (spec SPIN)
+//
+//  Spec SPIN:
+//    Árbitro das saídas SUPERIORES: atende requisições das FIFOs de entrada
+//      inferiores (portas DN) que querem subir na árvore.
+//    Árbitro das saídas INFERIORES: atende requisições das FIFOs de entrada
+//      superiores (portas UP) E do buffer central (pacotes bloqueados).
+//
+//  Uso no RSpin:
+//    up_arb  → escolhe qual flit de DN0-DN3 vai para qual saída Up
+//    dn_arb  → escolhe qual flit de UP0-UP3 (ou buffer central) vai para Down
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Árbitro para saídas superiores: N = NUM_DN_PORTS fontes (DN0-DN3)
+using ArbiterUP = ArbiterN<NUM_DN_PORTS>;
+
+// Árbitro para saídas inferiores: N = NUM_UP_PORTS + 1 fontes (UP0-UP3 + buffer central)
+using ArbiterDN = ArbiterN<NUM_UP_PORTS + 1>;
+
+// Alias legado usado em main.cpp (árbitro único para todos os 8 slots)
+// using Arbiter8 = ArbiterN<NUM_PORTS>;
+// using Arbiter4 = ArbiterN<4>;
